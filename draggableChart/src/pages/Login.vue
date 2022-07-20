@@ -1,73 +1,80 @@
 <template>
-  
   <div>
-    <div class="cha" id="cha"></div>
+    <div>{{ drag ? '拖拽中' : '拖拽停止' }}</div>
+    <!--使用draggable组件-->
+    
+      <draggable v-model="componentApp" chosenClass="chosen" forceFallback="true" group="name" animation="1000"
+        @start="onStart" @end="onEnd">
+        <!-- <transition-group>
+          
+            <vue-draggable-resizable class="item" v-for="element in componentApp" :key="element.id"> -->
+            <div class="item" v-for="element in componentApp" :key="element.id">
+          <component  :is="element.tag" >{{ element.name }}
+          </component>
+          </div>
+          <!-- </vue-draggable-resizable> -->
+          
+          
+        <!-- </transition-group> --> 
+     </draggable>
+    
   </div>
 </template>
+<style scoped>
+/*被拖拽对象的样式*/
+.item {
+  display: inline-flex;
+  width: auto;
+  height: auto;
+  padding: 6px;
+  background-color: #fdfdfd;
+  border: solid 1px #eee;
+  margin-bottom: 10px;
+  cursor: move;
+}
 
+/*选中样式*/
+.chosen {
+  border: solid 2px #3089dc !important;
+}
+</style>
 <script>
+//导入draggable组件
+import draggable from 'vuedraggable'
+import test1 from './test1'
 export default {
-  beforeCreate() {
+  //注册draggable组件
+  components: {
+    draggable, test1
   },
+  data() {
+    return {
+      drag: false,
+      //定义要被拖拽对象的数组
+      myArray: [
+        { people: 'cn', id: 1, name: 'www.itxst.com' },
+        { people: 'cn', id: 2, name: 'www.baidu.com' },
+        { people: 'cn', id: 3, name: 'www.taobao.com' },
+        { people: 'us', id: 4, name: 'www.google.com' }
+      ],
+      componentApp: [
+        { name: "item1", tag: 'test1', id: 1 },
+        { name: "item2", tag: 'test1', id: 2 },
+        { name: "item3", tag: 'test1', id: 3 },
+        { name1: "item3", tag: 'test1', id: 4 },
+      ]
 
-
+    };
+  },
   methods: {
-    drawChart() {
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(document.getElementById("cha"));
-      // 指定图表的配置项和数据
-      let option = {
-        legend: {},
-        tooltip: {},
-        dataset: {
-          dimensions: ['product', '业务类型', '额度占用情况', '缴纳情况'],
-          source: [
-            { product: '水果1', '业务类型': 43.3, '额度占用情况': 85.8, '缴纳情况': 93.7 },
-            { product: '水果2', '业务类型': 83.1, '额度占用情况': 73.4, '缴纳情况': 55.1 },
-            { product: '水果3', '业务类型': 86.4, '额度占用情况': 65.2, '缴纳情况': 82.5 },
-            { product: '水果4', '业务类型': 72.4, '额度占用情况': 53.9, '缴纳情况': 39.1 },
-            { product: '水果5', '业务类型': 43.3, '额度占用情况': 85.8, '缴纳情况': 93.7 },
-            { product: '水果6', '业务类型': 83.1, '额度占用情况': 73.4, '缴纳情况': 55.1 },
-            { product: '水果7', '业务类型': 86.4, '额度占用情况': 65.2, '缴纳情况': 82.5 },
-            { product: '水果8', '业务类型': 72.4, '额度占用情况': 53.9, '缴纳情况': 39.1 }
-          ]
-        },
-        xAxis: { type: 'category' },
-        yAxis: {},
-        // Declare several bar series, each will be mapped
-        // to a column of dataset.source by default.
-        series: [
-          { type: 'bar' },
-          { type: 'bar' },
-          { type: 'bar' }
-        ]
-      };
-      // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option);
-    }
+    //开始拖拽事件
+    onStart() {
+      this.drag = true;
+    },
+    //拖拽结束事件
+    onEnd() {
+      this.drag = false;
+    },
   },
-  mounted() {
-    this.drawChart();
-  }
 };
 </script>
-<style>
-.login-form {
-  max-width: 300px;
-  margin: auto !important;
-}
-
-.login-form-forgot {
-  float: right;
-}
-
-.login-form-button {
-  width: 100%;
-}
-.cha{
-  width: 500px;
-  height: 500px;
-}
-
-</style>
-

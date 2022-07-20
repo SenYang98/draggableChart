@@ -4,6 +4,11 @@ import App from "./App.vue";
 import Antd from "ant-design-vue";
 //引入Antd组件库CSS文件
 import "ant-design-vue/dist/antd.css";import * as echarts from 'echarts'
+import VueDraggableResizable from 'vue-draggable-resizable'
+ 
+// 可选择导入默认样式
+import 'vue-draggable-resizable/dist/VueDraggableResizable.css'
+Vue.component('vue-draggable-resizable', VueDraggableResizable)
 //vue中使用e-charts
 Vue.prototype.$echarts = echarts
 //Vue使用Antd组件库

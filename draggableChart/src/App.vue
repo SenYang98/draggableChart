@@ -1,21 +1,22 @@
 <template>
   <div id="app">
-    <Login />
+    <componentApp />
   </div>
 </template>
 
 <script>
-import Login from "./pages/Login";
+// import Login from "./pages/Login";
+import componentApp from "./pages/componentApp";
 
 export default {
   name: "App",
   components: {
-    Login,
+    componentApp
   },
 };
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
